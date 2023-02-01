@@ -31,7 +31,7 @@ public class Card
 			case "Clubs":
 				return "\u2663";
 			default:
-				return "No face??? error";
+				throw new IllegalArgumentException("Invalid suit of " + suit + "!");
 		}
 	}
 	
