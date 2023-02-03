@@ -1,9 +1,9 @@
 package org.emeraldcraft.apcsa.poker.selector;
 
+import java.util.Scanner;
+
 import org.emeraldcraft.apcsa.poker.Card;
 import org.emeraldcraft.apcsa.poker.Hand;
-
-import java.util.Scanner;
 
 public class SelectorThread extends Thread{
     private final Selector.OnSelectEvent onSelectEvent;
@@ -11,9 +11,11 @@ public class SelectorThread extends Thread{
     private final Scanner scanner = new Scanner(System.in);
     private int selected = 1;
     private boolean stopped = false;
-    public SelectorThread(Selector.OnSelectEvent onSelectEvent, Hand hand) {
+    private final Selector selector;
+    public SelectorThread(Selector selector, Selector.OnSelectEvent onSelectEvent, Hand hand) {
         this.onSelectEvent = onSelectEvent;
         this.hand = hand;
+        this.selector = selector;
     }
 
     @Override
@@ -21,13 +23,17 @@ public class SelectorThread extends Thread{
         showDeckAndSelector();
         while (!stopped){
             System.out.print("Enter an action: ");
-            int action = scanner.nextInt();
-            if(action < 1 || action > 5){
-                System.out.println("invalid action");
-                continue;
-            }
-            selected = action;
-            if(onSelectEvent.run(action)){
+            String action = scanner.next();
+            try{
+                int actionNum = Integer.parseInt(action);
+                if(actionNum < 1 || actionNum > 5){
+                    System.out.println("invalid action!");
+                    continue;
+                }
+                selected = actionNum;
+                action = " ";
+            } catch(NumberFormatException e){}        
+            if(onSelectEvent.run(selector, selected, action.charAt(0))){
                 //fill screen with new lines
                 for (int i = 0; i < 100; ++i) System.out.println();
                 showDeckAndSelector();

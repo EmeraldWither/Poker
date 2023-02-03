@@ -37,11 +37,13 @@ public class Card {
 			card.append(getFaceRow(cards));
 			//print out suit
 			card.append(getSuitRow(cards));
-			//Put a wall
-			for (int j = 0; j < 5; j++) {
-				card.append("|           |     ");
+			//Put 2 walls
+			for(int i = 0; i< 2; i++){
+				for (int j = 0; j < 5; j++) {
+					card.append("|           |     ");
+				}
+				card.append("\n");
 			}
-			card.append("\n");
 			//do above but in reverse
 			card.append(getSuitRow(cards));
 			card.append(getFaceRow(cards));

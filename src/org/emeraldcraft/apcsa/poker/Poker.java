@@ -1,5 +1,6 @@
 package org.emeraldcraft.apcsa.poker;
 
+import org.emeraldcraft.apcsa.poker.Card.CardPrinter;
 import org.emeraldcraft.apcsa.poker.selector.Selector;
 
 public class Poker {
@@ -10,23 +11,35 @@ public class Poker {
 
         System.out.println("=======================================\n      WELCOME TO EMERQLD CASINO\n        Lets play some poker\n========================================");
         cards.shuffle();
-        loadingAnimation("Hold on! We are shuffling your cards", "Your cards are ready", 4);
+        loadingAnimation("Hold on! We are shuffling your cards", "Your cards are ready", 0);
         Hand player1 = new Hand(cards);
         Hand player2 = new Hand(cards);
 
+        //display player 2 deck
         //Hand out all of the cards
-        System.out.println("Player 1 Cards:");
         //Organize our Decks
         organizeDeck(player1.getCards());
         organizeDeck(player2.getCards());
+        System.out.println("player 2 deck");
+        CardPrinter.printDeck(player2);
+        System.out.println("Player 1 Cards:");
         //Start our card selector
-        Selector selector = new Selector(
-                //when a value is selected
-                selectedValue -> {
-                    System.out.println("Selected Value: " + selectedValue);
+        Selector selector = null;
+        selector = new Selector(
+                //callback for when a value is selected
+                (cardSelector, selectedValue, action) -> {
+                    //Action 'q' = Submit
+                    if(action == 's'){
+                        double hand1Value = player1.getValue();
+                        double hand2Value = player2.getValue();
+                        if(hand1Value < hand2Value) System.out.println("you lost! hand1: " + hand1Value + " hand2: " + hand2Value);
+                        if(hand1Value > hand2Value) System.out.println("you won! hand1: " + hand1Value + " hand2: " + hand2Value);
+                        if(hand1Value == hand2Value) System.out.println("you tied! hand1: " + hand1Value + " hand2: " + hand2Value);
+                        cardSelector.pause();
+                        return false;
+                    }
                     //reprint the cards
                     return true;
-
                 }, player1);
         selector.start();
     }
