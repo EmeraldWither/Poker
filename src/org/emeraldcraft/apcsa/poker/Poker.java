@@ -10,7 +10,7 @@ public class Poker {
 
         System.out.println("=======================================\n      WELCOME TO EMERQLD CASINO\n        Lets play some poker\n========================================");
         cards.shuffle();
-        loadingAnimation("Hold on! We are shuffling your cards", "Your cards are ready", 0);
+        loadingAnimation("Hold on! We are shuffling your cards", "Your cards are ready", 4);
         Hand player1 = new Hand(cards);
         Hand player2 = new Hand(cards);
 
