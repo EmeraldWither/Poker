@@ -29,7 +29,7 @@ public class SelectorThread extends Thread{
             selected = action;
             if(onSelectEvent.run(action)){
                 //fill screen with new lines
-                for (int i = 0; i < 35; ++i) System.out.println();
+                for (int i = 0; i < 100; ++i) System.out.println();
                 showDeckAndSelector();
             }
         }
