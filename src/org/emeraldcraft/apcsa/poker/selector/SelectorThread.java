@@ -9,16 +9,16 @@ public class SelectorThread extends Thread{
     private final Selector.OnSelectEvent onSelectEvent;
     private final Hand hand;
     private final Scanner scanner = new Scanner(System.in);
-    private int selected = 0;
+    private int selected = 1;
     private boolean stopped = false;
     public SelectorThread(Selector.OnSelectEvent onSelectEvent, Hand hand) {
         this.onSelectEvent = onSelectEvent;
-
         this.hand = hand;
     }
 
     @Override
     public void run(){
+        showDeckAndSelector();
         while (!stopped){
             System.out.print("Enter an action: ");
             int action = scanner.nextInt();
@@ -29,18 +29,20 @@ public class SelectorThread extends Thread{
             selected = action;
             if(onSelectEvent.run(action)){
                 //fill screen with new lines
-                for (int i = 0; i < 15; ++i) System.out.println();
+                for (int i = 0; i < 35; ++i) System.out.println();
+                showDeckAndSelector();
+            }
+        }
 
-                Card.CardPrinter.printDeck(hand);
+    }
+    public void showDeckAndSelector(){
+        Card.CardPrinter.printDeck(hand);
                 for(int i = 0; i < selected; i++){
                     if(i + 1 == selected){
                         System.out.println("      ^");
                     }
                     else System.out.print("                  ");
                 }
-            }
-        }
-
     }
 
     public int getSelected() {

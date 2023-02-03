@@ -11,6 +11,9 @@ public class Selector {
     public Selector(OnSelectEvent onSelectCard, Hand hand) {
         selectorThread = new SelectorThread(onSelectCard, hand);
     }
+    public void showDeckAndSelector(){
+        selectorThread.showDeckAndSelector();
+    }
     public int getSelected() {
         return selectorThread.getSelected();
     }

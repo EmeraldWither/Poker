@@ -19,8 +19,6 @@ public class Poker {
         //Organize our Decks
         organizeDeck(player1.getCards());
         organizeDeck(player2.getCards());
-        //Print out the deck to the human
-        Card.CardPrinter.printDeck(player1);
         //Start our card selector
         Selector selector = new Selector(
                 //when a value is selected
