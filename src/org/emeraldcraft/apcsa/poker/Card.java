@@ -26,14 +26,60 @@ public class Card {
 			CARD_VALUES.put("Ace", 14);
 		}
 	}
+	public static class CardPrinter{
+		public static void printDeck(Hand hand){
+			Card[] cards = hand.getCards();
+			StringBuilder card = new StringBuilder();
+			//Add the top row
+			for (int i = 0; i < 5; i++) card.append(" -----------      ");
+			card.append("\n");
+			//Print out the face row
+			card.append(getFaceRow(cards));
+			//print out suit
+			card.append(getSuitRow(cards));
+			//Put a wall
+			for (int j = 0; j < 5; j++) {
+				card.append("|           |     ");
+			}
+			card.append("\n");
+			//do above but in reverse
+			card.append(getSuitRow(cards));
+			card.append(getFaceRow(cards));
+			for (int i = 0; i < 5; i++) card.append(" -----------      ");
+			System.out.println(card);
+		}
+		private static String getFaceRow(Card[] hand){
+			StringBuilder card = new StringBuilder();
+			for (int i = 0; i < 5; i++) {
+				if(hand[i].toShortString().length() == 2){
+					//exists so if we get "10", it does not mess with the spacing of the cards
+					card.append("| ").append(hand[i].toShortString()).append("     ").append(hand[i].toShortString()).append(" |     ");
+					continue;
+				}
+				card.append("| ").append(hand[i].toShortString()).append("       ").append(hand[i].toShortString()).append(" |     ");
+			}
+			card.append("\n");
+			return card.toString();
+		}
+		private static String getSuitRow(Card[] hand){
+			StringBuilder card = new StringBuilder();
+			for (int i = 0; i < 5; i++) {
+				card.append("| ").append(hand[i].getSuitUnicode()).append("       ").append(hand[i].getSuitUnicode()).append(" |     ");
+			}
+			card.append("\n");
+			return card.toString();
+		}
+
+
+	}
 
 	private final String face; // face of card ie..."Ace","Deuce", "King"..etc
 	private final String suit; // suit of card ie "Heart", "Diamond"
-	private final int value;
 
 	public int getValue() {
 		return value;
 	}
+	private final int value;
 
 	// two argument card constructor
 	public Card(String cardFace, String cardSuit) {
@@ -44,22 +90,34 @@ public class Card {
 	}
 
 	public String toString() {
-		return face + " of " + getUnicode();
+		return face + " of " + getSuitUnicode();
 	}
-
-	private String getUnicode() {
+	public String toShortString(){
+		if(value < 11){
+			return value + "";
+		}
+		return face.charAt(0) + "";
+	}
+	public String getSuitUnicode() {
 		switch (suit) {
 			case "Hearts":
-				return "\u2665";
+				return "♥";
 			case "Diamonds":
-				return "\u25C6";
+				return "◆";
 			case "Spades":
-				return "\u2660";
+				return "♠";
 			case "Clubs":
-				return "\u2663";
+				return "♣";
 			default:
 				throw new IllegalArgumentException("Invalid suit of " + suit + "!");
 		}
 	}
 
+	public String getFace() {
+		return face;
+	}
+
+	public String getSuit() {
+		return suit;
+	}
 }

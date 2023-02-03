@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class DeckOfCards
 {
-	private Card deck[];  // array of Card objects
+	private final Card[] deck;  // array of Card objects
 	private int currentCard; // index of next Card to be dealt
 	private final int NUMBER_OF_CARDS = 52;
 	
