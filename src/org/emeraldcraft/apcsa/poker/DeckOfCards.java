@@ -11,10 +11,10 @@ public class DeckOfCards
 	// Constructor fills the deck of Cards
 	public DeckOfCards()
 	{
-		String faces[] = {"Ace", "Deuce", "Three", "Four", "Five", "Six", "Seven",
+		String[] faces = {"Ace", "Deuce", "Three", "Four", "Five", "Six", "Seven",
 		"Eight", "Nine", "Ten", "Jack", "Queen", "King"};
 		
-		String suits[] = { "Hearts", "Diamonds", "Clubs", "Spades"};
+		String[] suits = { "Hearts", "Diamonds", "Clubs", "Spades"};
 	
 		deck = new Card[NUMBER_OF_CARDS];  // create our array of card objects
 	

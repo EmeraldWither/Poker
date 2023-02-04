@@ -1,6 +1,5 @@
 package org.emeraldcraft.apcsa.poker;
 
-import org.emeraldcraft.apcsa.poker.Card.CardPrinter;
 import org.emeraldcraft.apcsa.poker.selector.Selector;
 
 public class Poker {
@@ -21,7 +20,7 @@ public class Poker {
         organizeDeck(player1.getCards());
         organizeDeck(player2.getCards());
         System.out.println("player 2 deck");
-        CardPrinter.printDeck(player2);
+        Hand.printDeck(player2);
         System.out.println("Player 1 Cards:");
         //Start our card selector
         Selector selector = null;
@@ -30,11 +29,10 @@ public class Poker {
                 (cardSelector, selectedValue, action) -> {
                     //Action 'q' = Submit
                     if(action == 's'){
-                        double hand1Value = player1.getValue();
-                        double hand2Value = player2.getValue();
-                        if(hand1Value < hand2Value) System.out.println("you lost! hand1: " + hand1Value + " hand2: " + hand2Value);
-                        if(hand1Value > hand2Value) System.out.println("you won! hand1: " + hand1Value + " hand2: " + hand2Value);
-                        if(hand1Value == hand2Value) System.out.println("you tied! hand1: " + hand1Value + " hand2: " + hand2Value);
+                        if (player1.isWinning(player2)) {
+                            System.out.println("You won!");
+                        }
+                        else System.out.println("You lost :(");
                         cardSelector.pause();
                         return false;
                     }
@@ -60,7 +58,7 @@ public class Poker {
     private static int findMinimum(Card[] hand, int first) {
         int minIndex = first;
         for (int i = first + 1; i < hand.length; i++) {
-            if (hand[i].getValue() < hand[minIndex].getValue()) minIndex = i;
+            if (hand[i].getFaceValue() < hand[minIndex].getFaceValue()) minIndex = i;
         }
         return minIndex;
     }

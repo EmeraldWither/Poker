@@ -2,7 +2,6 @@ package org.emeraldcraft.apcsa.poker.selector;
 
 import java.util.Scanner;
 
-import org.emeraldcraft.apcsa.poker.Card;
 import org.emeraldcraft.apcsa.poker.Hand;
 
 public class SelectorThread extends Thread{
@@ -24,15 +23,25 @@ public class SelectorThread extends Thread{
         while (!stopped){
             System.out.print("Enter an action: ");
             String action = scanner.next();
+            if(action.equalsIgnoreCase("h")){
+                //Show help page
+                System.out.println(
+                        "Please enter a number to select that card [1-5], or run a command\n" +
+                        "Commands: \n" +
+                        "[S]umbit Cards\n" +
+                        "[C]hange Cards\n" +
+                        "[H]elp");
+                continue;
+            }
             try{
                 int actionNum = Integer.parseInt(action);
                 if(actionNum < 1 || actionNum > 5){
-                    System.out.println("invalid action!");
+                    System.out.println("Please enter a valid action (type H for help)");
                     continue;
                 }
                 selected = actionNum;
                 action = " ";
-            } catch(NumberFormatException e){}        
+            } catch(NumberFormatException ignored){}
             if(onSelectEvent.run(selector, selected, action.charAt(0))){
                 //fill screen with new lines
                 for (int i = 0; i < 100; ++i) System.out.println();
@@ -42,7 +51,7 @@ public class SelectorThread extends Thread{
 
     }
     public void showDeckAndSelector(){
-        Card.CardPrinter.printDeck(hand);
+        Hand.printDeck(hand);
                 for(int i = 0; i < selected; i++){
                     if(i + 1 == selected){
                         System.out.println("      ^");
