@@ -18,8 +18,8 @@ public class Poker {
         //Organize our Decks
         organizeDeck(player1.getCards());
         organizeDeck(player2.getCards());
-        System.out.println("player 2 deck");
-        Hand.printDeck(player2);
+        // System.out.println("player 2 deck");
+        // Hand.printDeck(player2);
         System.out.println("Player 1 Cards:");
         //Start our card selector
         Selector selector = null;
@@ -49,6 +49,7 @@ public class Poker {
                         return false;
                     }
                     if(action == 'c' && changed[0] < 3){
+                        if(player1.getCards()[cardSelector.getSelected()].getFaceValue() == -1) return false;
                         player1.getCards()[cardSelector.getSelected()] = new Card("?", "?");
                         changed[0]++;
                     }

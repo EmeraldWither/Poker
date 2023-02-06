@@ -126,26 +126,9 @@ public class Hand {
     }
 
     public boolean hasThreePair() {
-        int[] suits = {0, 0, 0, 0};
         int[] faces = new int[14];
-        //0 = hearts
-        //1 - diamonds
-        //2 - clubs
-        //3 - spades
-        for (Card card : cards) {
-            if (card.getSuit().equalsIgnoreCase("Hearts")) suits[0]++;
-            if (card.getSuit().equalsIgnoreCase("Diamonds")) suits[1]++;
-            if (card.getSuit().equalsIgnoreCase("Clubs")) suits[2]++;
-            if (card.getSuit().equalsIgnoreCase("Spades")) suits[3]++;
-
-            faces[card.getFaceValue() - 1]++;
-        }
-        //Now loop over faces
-        for (int i : suits) if (i >= 3) return true;
-        //Now check for values
-
+        for(int i = 0; i < 5; i++) faces[cards[i].getFaceValue() - 1]++;
         for (int i : faces) if (i >= 3) return true;
-
         return false;
     }
 
