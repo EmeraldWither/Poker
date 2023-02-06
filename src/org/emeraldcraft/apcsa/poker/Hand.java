@@ -63,7 +63,11 @@ public class Hand {
     }
 
     public boolean isWinning(Hand other) {
-        // put in {} so we can minimize in IDE
+
+        if((getFlushValue() > other.getFlushValue()) || (getFlushValue() < other.getFlushValue())){
+            System.out.println("get flush value = " + (getFlushValue() > other.getFlushValue()));
+            return getFlushValue() > other.getFlushValue();
+        }
         if((hasStraight() && !other.hasStraight()) || ((!hasStraight() && other.hasStraight()))){
             System.out.println("has straight = " + (hasStraight() && !other.hasStraight()));
             return hasStraight() && !other.hasStraight();
@@ -82,6 +86,23 @@ public class Hand {
         }
         return false;
     }
+    public double getFlushValue(){
+        Card highestCard = null;
+        double value = 0.0;
+        for(int i = 1; i < cards.length; i++){
+            if(!cards[i - 1].getSuit().equalsIgnoreCase(cards[i].getSuit())) return 0.0;
+            if(highestCard == null){
+                highestCard = cards[i];
+            }
+            else if(highestCard.getFaceValue() < cards[i].getFaceValue()){
+                highestCard = cards[i];
+            }
+        }
+        value +=5; 
+        value += 0.01 * highestCard.getFaceValue();
+        System.out.println("flush value" + value);
+        return value;
+    }
 
     public boolean hasStraight() {
         Card previousValue = cards[0];
@@ -93,7 +114,7 @@ public class Hand {
                 break;
             }
         }
-        if (isStraight && (cards[4].getFace().equalsIgnoreCase("Ace") && cards[3].getFace().equalsIgnoreCase("King"))|| (previousValue.getFaceValue() == cards[4].getFaceValue() + 1))
+        if (isStraight && (cards[4].getFace().equalsIgnoreCase("Ace") && cards[3].getFace().equalsIgnoreCase("King") || (cards[4].getFaceValue() == 14 && cards[0].getFaceValue() == 2)  || (previousValue.getFaceValue() == cards[4].getFaceValue() + 1)))
             isStraight = true;
         if (!isStraight) {
             boolean isHighestStraight = true;

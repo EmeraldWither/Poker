@@ -13,8 +13,7 @@ public class Poker {
         loadingAnimation("Hold on! We are shuffling your cards", "Your cards are ready", 0);
         Hand player1 = new Hand(cards);
         Hand player2 = new Hand(cards);
-
-        //display player 2 deck
+        
         //Hand out all of the cards
         //Organize our Decks
         organizeDeck(player1.getCards());
