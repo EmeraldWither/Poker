@@ -1,5 +1,6 @@
 package org.emeraldcraft.apcsa.poker;
 
+import org.emeraldcraft.apcsa.poker.GameResult.Result;
 import org.emeraldcraft.apcsa.poker.selector.Selector;
 
 public class Poker {
@@ -40,11 +41,11 @@ public class Poker {
 
                         System.out.println("Your Deck:");
                         Hand.printDeck(player1);
+                        GameResult result = player1.isWinning(player2);
+                        if(result.getResult() == Result.WON) System.out.println("You Won!");
+                        if(result.getResult() == Result.LOST) System.out.println("You lost :(");
+                        if(result.getResult() == Result.TIED) System.out.println("You tied.");
 
-                        if (player1.isWinning(player2)) {
-                            System.out.println("You won!");
-                        }
-                        else System.out.println("You lost :(");
                         cardSelector.pause();
                         return false;
                     }

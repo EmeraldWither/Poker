@@ -60,24 +60,24 @@ public class Hand {
         return cards;
     }
 
-    public boolean isWinning(Hand other) {
+    public GameResult isWinning(Hand other) {
 
         if((getFlushValue() > other.getFlushValue()) || (getFlushValue() < other.getFlushValue())){
-            return getFlushValue() > other.getFlushValue();
+            return new GameResult(getFlushValue() > other.getFlushValue(), false);
         }
         if((hasStraight() && !other.hasStraight()) || ((!hasStraight() && other.hasStraight()))){
-            return hasStraight() && !other.hasStraight();
+            return new GameResult(hasStraight() && !other.hasStraight(), false);
         }
         if((hasThreePair() && !other.hasThreePair()) || (!hasThreePair() && other.hasThreePair())){
-            return hasThreePair() && !other.hasThreePair();
+            return new GameResult(hasThreePair() && !other.hasThreePair(), false);
         }
         if((getPairValue() > other.getPairValue()) || (getPairValue() < other.getPairValue())){
-            return getPairValue() > other.getPairValue();
+            return new GameResult(getPairValue() > other.getPairValue(), false);
         }
         if((getHighestCardValue() > other.getHighestCardValue()) || (getHighestCardValue() < other.getHighestCardValue())){
-            return getHighestCardValue() > other.getHighestCardValue();
+            return new GameResult(getHighestCardValue() > other.getHighestCardValue(), false);
         }
-        return false;
+        return new GameResult(false, true);
     }
     public double getFlushValue(){
         Card highestCard = null;
