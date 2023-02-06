@@ -11,6 +11,7 @@ public class Card {
 		public static final HashMap<String, Integer> CARD_VALUES = new HashMap<>();
 		static {
 			// lazy way out
+			CARD_VALUES.put("?", -1);
 			CARD_VALUES.put("Deuce", 2);
 			CARD_VALUES.put("Three", 3);
 			CARD_VALUES.put("Four", 4);
@@ -44,9 +45,8 @@ public class Card {
 	}
 
 	public String toShortString(){
-		if(value < 11){
-			return value + "";
-		}
+		if(value == -1) return "?";
+		if(value < 11) return value + "";
 		return face.charAt(0) + "";
 	}
 	public int getFaceValue() {
@@ -62,6 +62,8 @@ public class Card {
 				return "♠";
 			case "Clubs":
 				return "♣";
+			case "?":
+				return "?";
 			default:
 				throw new IllegalArgumentException("Invalid suit of " + suit + "!");
 		}

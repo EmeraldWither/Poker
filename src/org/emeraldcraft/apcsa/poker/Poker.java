@@ -6,13 +6,13 @@ public class Poker {
     //README:
     // When using program, use a monospaced font for the best results (suggested. Fira Code)
     public static void main(String[] args) {
-        DeckOfCards cards = new DeckOfCards();
+        DeckOfCards deck = new DeckOfCards();
 
         System.out.println("=======================================\n      WELCOME TO EMERQLD CASINO\n        Lets play some poker\n========================================");
-        cards.shuffle();
-        loadingAnimation("Hold on! We are shuffling your cards", "Your cards are ready", 0);
-        Hand player1 = new Hand(cards);
-        Hand player2 = new Hand(cards);
+        deck.shuffle();
+        loadingAnimation("Hold on! We are shuffling your cards", "Your cards are ready", 4);
+        Hand player1 = new Hand(deck);
+        Hand player2 = new Hand(deck);
         
         //Hand out all of the cards
         //Organize our Decks
@@ -23,17 +23,34 @@ public class Poker {
         System.out.println("Player 1 Cards:");
         //Start our card selector
         Selector selector = null;
+        int[] changed = {0};
         selector = new Selector(
                 //callback for when a value is selected
                 (cardSelector, selectedValue, action) -> {
                     //Action 'q' = Submit
                     if(action == 's'){
+                        //remove any mystery cards
+                        for(int i = 0; i < 5; i++){
+                            if(player1.getCards()[i].getFaceValue() == -1) player1.getCards()[i] = deck.dealCard();
+                        }
+                        organizeDeck(player1.getCards());
+                        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + 
+                        "Computer Deck");
+                        Hand.printDeck(player2);
+
+                        System.out.println("Your Deck:");
+                        Hand.printDeck(player1);
+
                         if (player1.isWinning(player2)) {
                             System.out.println("You won!");
                         }
                         else System.out.println("You lost :(");
                         cardSelector.pause();
                         return false;
+                    }
+                    if(action == 'c' && changed[0] < 3){
+                        player1.getCards()[cardSelector.getSelected()] = new Card("?", "?");
+                        changed[0]++;
                     }
                     //reprint the cards
                     return true;

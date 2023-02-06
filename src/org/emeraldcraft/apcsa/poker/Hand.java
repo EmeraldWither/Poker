@@ -1,7 +1,5 @@
 package org.emeraldcraft.apcsa.poker;
 
-import java.util.Arrays;
-
 public class Hand {
     private final Card[] cards = new Card[5];
 
@@ -65,23 +63,18 @@ public class Hand {
     public boolean isWinning(Hand other) {
 
         if((getFlushValue() > other.getFlushValue()) || (getFlushValue() < other.getFlushValue())){
-            System.out.println("get flush value = " + (getFlushValue() > other.getFlushValue()));
             return getFlushValue() > other.getFlushValue();
         }
         if((hasStraight() && !other.hasStraight()) || ((!hasStraight() && other.hasStraight()))){
-            System.out.println("has straight = " + (hasStraight() && !other.hasStraight()));
             return hasStraight() && !other.hasStraight();
         }
         if((hasThreePair() && !other.hasThreePair()) || (!hasThreePair() && other.hasThreePair())){
-            System.out.println("has 3 pair = " + (hasThreePair() && !other.hasThreePair()));
             return hasThreePair() && !other.hasThreePair();
         }
         if((getPairValue() > other.getPairValue()) || (getPairValue() < other.getPairValue())){
-            System.out.println("get pair value = " + (getPairValue() > other.getPairValue()));
             return getPairValue() > other.getPairValue();
         }
         if((getHighestCardValue() > other.getHighestCardValue()) || (getHighestCardValue() < other.getHighestCardValue())){
-            System.out.println("get highest value = " + (getHighestCardValue() > other.getHighestCardValue()));
             return getHighestCardValue() > other.getHighestCardValue();
         }
         return false;
@@ -100,7 +93,6 @@ public class Hand {
         }
         value +=5; 
         value += 0.01 * highestCard.getFaceValue();
-        System.out.println("flush value" + value);
         return value;
     }
 
@@ -134,7 +126,6 @@ public class Hand {
     }
 
     public boolean hasThreePair() {
-        System.out.println(Arrays.toString(cards));
         int[] suits = {0, 0, 0, 0};
         int[] faces = new int[14];
         //0 = hearts
