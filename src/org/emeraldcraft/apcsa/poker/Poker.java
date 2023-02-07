@@ -1,5 +1,7 @@
 package org.emeraldcraft.apcsa.poker;
 
+import java.util.Scanner;
+
 import org.emeraldcraft.apcsa.poker.GameResult.Result;
 import org.emeraldcraft.apcsa.poker.selector.Selector;
 
@@ -10,8 +12,15 @@ public class Poker {
         DeckOfCards deck = new DeckOfCards();
 
         System.out.println("=======================================\n      WELCOME TO EMERQLD CASINO\n        Lets play some poker\n========================================");
+        
+        System.out.print("\nFirst, place your bet: ");
+        
+        int bet = new Scanner(System.in).nextInt();
+        System.out.printf("You have bet $%s. Lets start the game\n\n\n", bet);
+
+
         deck.shuffle();
-        loadingAnimation("Hold on! We are shuffling your cards", "Your cards are ready", 4);
+        loadingAnimation("We are shuffling your cards", "", 4);
         Hand player1 = new Hand(deck);
         Hand player2 = new Hand(deck);
         
@@ -82,6 +91,7 @@ public class Poker {
     }
 
     public static void loadingAnimation(String during, String end, double duration) {
+        //get our duration for the animations loop
         int amount = (int) (duration / 0.5);
         for (int i = 0; i < amount; i++) {
             StringBuilder text = new StringBuilder(during);
@@ -91,6 +101,7 @@ public class Poker {
             }
             //Input whitespace to be able to override previous
             text.append("   ");
+            //try/catch sleep
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -101,7 +112,7 @@ public class Poker {
         }
         StringBuilder text = new StringBuilder(end);
         //Whitespace based on the during string
-        for (int i = 0; i < end.length(); i++) {
+        for (int i = 0; i < during.length() + 4; i++) {
             text.append(" ");
         }
         System.out.println("\r" + text);
