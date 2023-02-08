@@ -6,15 +6,25 @@ import org.emeraldcraft.apcsa.poker.GameResult.Result;
 import org.emeraldcraft.apcsa.poker.selector.Selector;
 
 public class Poker {
+    private static int balance = 0;
     //README:
     // When using program, use a monospaced font for the best results (suggested. Fira Code)
     public static void main(String[] args) {
+        System.out.println("=========================================================================================================================\n" +
+                "     ███████╗███╗   ███╗███████╗██████╗  ██████╗ ██╗     ██████╗    █████╗  █████╗  ██████╗██╗███╗  ██╗ █████╗ \n" +
+                "     ██╔════╝████╗ ████║██╔════╝██╔══██╗██╔═══██╗██║     ██╔══██╗  ██╔══██╗██╔══██╗██╔════╝██║████╗ ██║██╔══██╗   \n" +
+                "     █████╗  ██╔████╔██║█████╗  ██████╔╝██║██╗██║██║     ██║  ██║  ██║  ╚═╝███████║╚█████╗ ██║██╔██╗██║██║  ██║   \n" +
+                "     █╔══╝   ██║╚██╔╝██║██╔══╝  ██╔══██╗╚██████╔╝██║     ██║  ██║  ██║  ██╗██╔══██║ ╚═══██╗██║██║╚████║██║  ██║\n" +
+                "     ███████╗██║ ╚═╝ ██║███████╗██║  ██║ ╚═██╔═╝ ███████╗██████╔╝  ╚█████╔╝██║  ██║██████╔╝██║██║ ╚███║╚█████╔╝\n" +
+                "     ╚══════╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═════╝    ╚════╝ ╚═╝  ╚═╝╚═════╝ ╚═╝╚═╝  ╚══╝ ╚════╝ \n" +
+                "=========================================================================================================================");
+        System.out.println("Its ");
+        runGame();
+    }
+    public static void runGame(){
         DeckOfCards deck = new DeckOfCards();
+        System.out.print("\nPlace your bet: ");
 
-        System.out.println("=======================================\n      WELCOME TO EMERQLD CASINO\n        Lets play some poker\n========================================");
-        
-        System.out.print("\nFirst, place your bet: ");
-        
         int bet = new Scanner(System.in).nextInt();
         System.out.printf("You have bet $%s. Lets start the game\n\n\n", bet);
 
@@ -23,7 +33,7 @@ public class Poker {
         loadingAnimation("We are shuffling your cards", "", 4);
         Hand player1 = new Hand(deck);
         Hand player2 = new Hand(deck);
-        
+
         //Hand out all of the cards
         //Organize our Decks
         organizeDeck(player1.getCards());
@@ -32,34 +42,48 @@ public class Poker {
         // Hand.printDeck(player2);
         System.out.println("Player 1 Cards:");
         //Start our card selector
-        Selector selector = null;
         int[] changed = {0};
-        selector = new Selector(
+        Selector selector = new Selector(
                 //callback for when a value is selected
                 (cardSelector, selectedValue, action) -> {
                     //Action 'q' = Submit
-                    if(action == 's'){
+                    if (action == 's') {
                         //remove any mystery cards
-                        for(int i = 0; i < 5; i++){
-                            if(player1.getCards()[i].getFaceValue() == -1) player1.getCards()[i] = deck.dealCard();
+                        for (int i = 0; i < 5; i++) {
+                            if (player1.getCards()[i].getFaceValue() == -1) player1.getCards()[i] = deck.dealCard();
                         }
                         organizeDeck(player1.getCards());
-                        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + 
-                        "Computer Deck");
+                        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" +
+                                "Computer Deck");
                         Hand.printDeck(player2);
 
                         System.out.println("Your Deck:");
                         Hand.printDeck(player1);
                         GameResult result = player1.isWinning(player2);
-                        if(result.getResult() == Result.WON) System.out.println("You Won!");
-                        if(result.getResult() == Result.LOST) System.out.println("You lost :(");
-                        if(result.getResult() == Result.TIED) System.out.println("You tied.");
-
+                        if (result.getResult() == Result.WON){
+                            System.out.println("You Won!");
+                            balance += bet;
+                        }
+                        if (result.getResult() == Result.LOST){
+                            System.out.println("You lost :(");
+                            balance -= bet;
+                        }
+                        if (result.getResult() == Result.TIED){
+                            System.out.println("You tied.");
+                            balance += bet/2;
+                        }
+                        if(balance > 0){
+                            System.out.println("Current Balance: " + balance);
+                            cardSelector.pause();
+                            runGame();
+                            return false;
+                        }
+                        System.out.println("Your gambling addiction did not pay off. You are now broke, and have to leave the casino empty handed. You actually owe me $" + Math.abs(balance) +". \n*You have 3 days*");
                         cardSelector.pause();
                         return false;
                     }
-                    if(action == 'c' && changed[0] < 3){
-                        if(player1.getCards()[cardSelector.getSelected()].getFaceValue() == -1) return false;
+                    if (action == 'c' && changed[0] < 3) {
+                        if (player1.getCards()[cardSelector.getSelected()].getFaceValue() == -1) return false;
                         player1.getCards()[cardSelector.getSelected()] = new Card("?", "?");
                         changed[0]++;
                     }
