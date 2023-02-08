@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class Card
 {
 	public static class Constants
-	 {
+	{
 		public static final HashMap<String, Integer> CARD_VALUES = new HashMap<>();
 		static 
 		{

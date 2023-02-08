@@ -6,7 +6,8 @@ public class Hand
 
     public Hand(DeckOfCards deck) 
     {
-        for (int i = 0; i < cards.length; i++) {
+        for (int i = 0; i < cards.length; i++) 
+        {
             cards[i] = deck.dealCard();
         }
     }
@@ -130,9 +131,11 @@ public class Hand
             boolean isHighestStraight = true;
             //Check highest straight
             previousValue = cards[0];
-            for (int i = 1; i < cards.length; i++) {
+            for (int i = 1; i < cards.length; i++)
+            {
                 Card card = cards[i];
-                if (previousValue.getFaceValue() + 1 != card.getFaceValue()) {
+                if (previousValue.getFaceValue() + 1 != card.getFaceValue()) 
+                {
                     isHighestStraight = false;
                     break;
                 }
