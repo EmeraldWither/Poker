@@ -6,10 +6,13 @@ import java.util.HashMap;
 
 // Card class represents a playing card
 
-public class Card {
-	public static class Constants {
+public class Card
+{
+	public static class Constants
+	 {
 		public static final HashMap<String, Integer> CARD_VALUES = new HashMap<>();
-		static {
+		static 
+		{
 			// lazy way out
 			CARD_VALUES.put("?", -1);
 			CARD_VALUES.put("Deuce", 2);
@@ -34,25 +37,30 @@ public class Card {
 	private final int value;
 	// two argument card constructor
 
-	public Card(String cardFace, String cardSuit) {
+	public Card(String cardFace, String cardSuit) 
+	{
 		face = cardFace;
 		suit = cardSuit;
 		// Convert it to a value
 		value = CARD_VALUES.get(cardFace);
 	}
-	public String toString() {
+	public String toString() 
+	{
 		return face + " of " + getSuitUnicode();
 	}
 
-	public String toShortString(){
+	public String toShortString()
+	{
 		if(value == -1) return "?";
 		if(value < 11) return value + "";
 		return face.charAt(0) + "";
 	}
-	public int getFaceValue() {
+	public int getFaceValue() 
+	{
 		return value;
 	}
-	public String getSuitUnicode() {
+	public String getSuitUnicode() 
+	{
 		switch (suit) {
 			case "Hearts":
 				return "♥";
@@ -69,11 +77,13 @@ public class Card {
 		}
 	}
 
-	public String getFace() {
+	public String getFace() 
+	{
 		return face;
 	}
 
-	public String getSuit() {
+	public String getSuit() 
+	{
 		return suit;
 	}
 }

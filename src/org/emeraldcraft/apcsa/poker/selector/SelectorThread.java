@@ -4,26 +4,31 @@ import java.util.Scanner;
 
 import org.emeraldcraft.apcsa.poker.Hand;
 
-public class SelectorThread extends Thread{
+public class SelectorThread extends Thread
+{
     private final Selector.OnSelectEvent onSelectEvent;
     private final Hand hand;
     private final Scanner scanner = new Scanner(System.in);
     private int selected = 1;
     private boolean stopped = false;
     private final Selector selector;
-    public SelectorThread(Selector selector, Selector.OnSelectEvent onSelectEvent, Hand hand) {
+    public SelectorThread(Selector selector, Selector.OnSelectEvent onSelectEvent, Hand hand)
+    {
         this.onSelectEvent = onSelectEvent;
         this.hand = hand;
         this.selector = selector;
     }
 
     @Override
-    public void run(){
+    public void run()
+    {
         showDeckAndSelector();
-        while (!stopped){
+        while (!stopped)
+        {
             System.out.print("Enter an action [H]elp: ");
             String action = scanner.next();
-            if(action.equalsIgnoreCase("h")){
+            if(action.equalsIgnoreCase("h"))
+            {
                 //Show help page
                 System.out.println(
                         "Please enter a number to select that card [1-5], or run a command\n" +
@@ -33,16 +38,19 @@ public class SelectorThread extends Thread{
                         "  [H]elp");
                 continue;
             }
-            try{
+            try
+            {
                 int actionNum = Integer.parseInt(action);
-                if(actionNum < 1 || actionNum > 5){
+                if(actionNum < 1 || actionNum > 5)
+                {
                     System.out.println("Please enter a valid action (type H for help)");
                     continue;
                 }
                 selected = actionNum;
                 action = " ";
             } catch(NumberFormatException ignored){}
-            if(onSelectEvent.run(selector, selected, action.charAt(0))){
+            if(onSelectEvent.run(selector, selected, action.charAt(0)))
+            {
                 //fill screen with new lines
                 for (int i = 0; i < 100; ++i) System.out.println();
                 showDeckAndSelector();
@@ -50,21 +58,26 @@ public class SelectorThread extends Thread{
         }
 
     }
-    public void showDeckAndSelector(){
+    public void showDeckAndSelector()
+    {
         Hand.printDeck(hand);
-                for(int i = 0; i < selected; i++){
-                    if(i + 1 == selected){
+                for(int i = 0; i < selected; i++)
+                {
+                    if(i + 1 == selected)
+                    {
                         System.out.println("      ^");
                     }
                     else System.out.print("                  ");
                 }
     }
 
-    public int getSelected() {
+    public int getSelected()
+    {
         return this.selected;
     }
 
-    public void end() {
+    public void end() 
+    {
         stopped = true;
     }
 }

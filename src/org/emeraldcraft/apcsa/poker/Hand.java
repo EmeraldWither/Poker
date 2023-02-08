@@ -1,15 +1,18 @@
 package org.emeraldcraft.apcsa.poker;
 
-public class Hand {
+public class Hand 
+{
     private final Card[] cards = new Card[5];
 
-    public Hand(DeckOfCards deck) {
+    public Hand(DeckOfCards deck) 
+    {
         for (int i = 0; i < cards.length; i++) {
             cards[i] = deck.dealCard();
         }
     }
 
-    public static void printDeck(Hand hand) {
+    public static void printDeck(Hand hand) 
+    {
         Card[] cards = hand.getCards();
         StringBuilder card = new StringBuilder();
         //Add the top row
@@ -20,8 +23,10 @@ public class Hand {
         //print out suit
         card.append(getSuitRow(cards));
         //Put 2 walls
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < 2; i++) 
+        {
+            for (int j = 0; j < 5; j++) 
+            {
                 card.append("|           |     ");
             }
             card.append("\n");
@@ -33,10 +38,13 @@ public class Hand {
         System.out.println(card);
     }
 
-    public static String getFaceRow(Card[] hand) {
+    public static String getFaceRow(Card[] hand)
+    {
         StringBuilder card = new StringBuilder();
-        for (int i = 0; i < 5; i++) {
-            if (hand[i].toShortString().length() == 2) {
+        for (int i = 0; i < 5; i++) 
+        {
+            if (hand[i].toShortString().length() == 2) 
+            {
                 //exists so if we get "10", it does not mess with the spacing of the cards
                 card.append("| ").append(hand[i].toShortString()).append("     ").append(hand[i].toShortString()).append(" |     ");
                 continue;
@@ -47,60 +55,69 @@ public class Hand {
         return card.toString();
     }
 
-    public static String getSuitRow(Card[] hand) {
+    public static String getSuitRow(Card[] hand)
+    {
         StringBuilder card = new StringBuilder();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) 
+        {
             card.append("| ").append(hand[i].getSuitUnicode()).append("       ").append(hand[i].getSuitUnicode()).append(" |     ");
         }
         card.append("\n");
         return card.toString();
     }
 
-    public Card[] getCards() {
+    public Card[] getCards() 
+    {
         return cards;
     }
 
-    public GameResult isWinning(Hand other) {
+    public GameResult isWinning(Hand other) 
+    {
 
-        if((getFlushValue() > other.getFlushValue()) || (getFlushValue() < other.getFlushValue())){
+        if((getFlushValue() > other.getFlushValue()) || (getFlushValue() < other.getFlushValue()))
             return new GameResult(getFlushValue() > other.getFlushValue(), false);
-        }
-        if((hasStraight() && !other.hasStraight()) || ((!hasStraight() && other.hasStraight()))){
+        
+        if((hasStraight() && !other.hasStraight()) || ((!hasStraight() && other.hasStraight())))
             return new GameResult(hasStraight() && !other.hasStraight(), false);
-        }
-        if((hasThreePair() && !other.hasThreePair()) || (!hasThreePair() && other.hasThreePair())){
+        
+        if((hasThreePair() && !other.hasThreePair()) || (!hasThreePair() && other.hasThreePair()))
             return new GameResult(hasThreePair() && !other.hasThreePair(), false);
-        }
-        if((getPairValue() > other.getPairValue()) || (getPairValue() < other.getPairValue())){
+        
+        if((getPairValue() > other.getPairValue()) || (getPairValue() < other.getPairValue()))
             return new GameResult(getPairValue() > other.getPairValue(), false);
-        }
-        if((getHighestCardValue() > other.getHighestCardValue()) || (getHighestCardValue() < other.getHighestCardValue())){
+        
+        if((getHighestCardValue() > other.getHighestCardValue()) || (getHighestCardValue() < other.getHighestCardValue()))
             return new GameResult(getHighestCardValue() > other.getHighestCardValue(), false);
-        }
+        
         return new GameResult(false, true);
     }
-    public double getFlushValue(){
+    public double getFlushValue()
+    {
         Card highestCard = null;
         double value = 0.0;
-        for(int i = 1; i < cards.length; i++){
+        for(int i = 1; i < cards.length; i++)
+        {
             if(!cards[i - 1].getSuit().equalsIgnoreCase(cards[i].getSuit())) return 0.0;
-            if(highestCard == null){
+            if(highestCard == null)
+            {
                 highestCard = cards[i];
             }
-            else if(highestCard.getFaceValue() < cards[i].getFaceValue()){
+            else if(highestCard.getFaceValue() < cards[i].getFaceValue())
                 highestCard = cards[i];
-            }
+            
         }
         value +=5; 
         value += 0.01 * highestCard.getFaceValue();
         return value;
     }
 
-    public boolean hasStraight() {
+    public boolean hasStraight()
+    {
         Card previousValue = cards[0];
         boolean isStraight = true;
         //lowest straight
-        for (int i = 1; i < cards.length - 1; i++) {
+        for (int i = 1; i < cards.length - 1; i++) 
+        {
             if (previousValue.getFaceValue() != cards[i].getFaceValue() + 1) {
                 isStraight = false;
                 break;
@@ -108,7 +125,8 @@ public class Hand {
         }
         if (isStraight && (cards[4].getFace().equalsIgnoreCase("Ace") && cards[3].getFace().equalsIgnoreCase("King") || (cards[4].getFaceValue() == 14 && cards[0].getFaceValue() == 2)  || (previousValue.getFaceValue() == cards[4].getFaceValue() + 1)))
             isStraight = true;
-        if (!isStraight) {
+        if (!isStraight)
+        {
             boolean isHighestStraight = true;
             //Check highest straight
             previousValue = cards[0];
@@ -125,21 +143,25 @@ public class Hand {
         return isStraight;
     }
 
-    public boolean hasThreePair() {
+    public boolean hasThreePair()
+     {
         int[] faces = new int[14];
         for(int i = 0; i < 5; i++) faces[cards[i].getFaceValue() - 1]++;
         for (int i : faces) if (i >= 3) return true;
         return false;
     }
 
-    public double getPairValue() {
+    public double getPairValue()
+    {
         double value = 0;
         double multiplier = 0.1;
         // find highest pair
         int highestPairIndex = -1;
         int secondHighestPairValue = 0;
-        for (int i = 0; i < cards.length - 1; i++) {
-            if (cards[i].getFaceValue() == cards[i + 1].getFaceValue()) {
+        for (int i = 0; i < cards.length - 1; i++) 
+        {
+            if (cards[i].getFaceValue() == cards[i + 1].getFaceValue()) 
+            {
                 secondHighestPairValue = cards[i].getFaceValue();
                 if (highestPairIndex == -1)
                     highestPairIndex = i;
@@ -149,14 +171,17 @@ public class Hand {
         }
 
         // Include pair type
-        if (highestPairIndex != -1) {
+        if (highestPairIndex != -1) 
+        {
             // Found a pair
             value += 1;
             value += cards[highestPairIndex].getFaceValue() * multiplier;
             multiplier *= 0.01;
             // now loop over array and check for the ones that we need and add it to it
-            for (int j = 4; j >= 0; j--) {
-                if (j == highestPairIndex || j == highestPairIndex + 1) {
+            for (int j = 4; j >= 0; j--) 
+            {
+                if (j == highestPairIndex || j == highestPairIndex + 1) 
+                {
                     continue;
                 }
                 value += (cards[j].getFaceValue() + secondHighestPairValue) * multiplier;
@@ -165,10 +190,12 @@ public class Hand {
         }
         return value;
     }
-    public double getHighestCardValue(){
+    public double getHighestCardValue()
+    {
         double value = 0.0;
         double multiplier = 0.01;
-        for (int i = 4; i >= 0; i--) {
+        for (int i = 4; i >= 0; i--) 
+        {
             value += cards[i].getFaceValue() * multiplier;
             multiplier *= 0.01;
         }
