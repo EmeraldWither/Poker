@@ -21,16 +21,16 @@ public class SelectorThread extends Thread{
     public void run(){
         showDeckAndSelector();
         while (!stopped){
-            System.out.print("Enter an action: ");
+            System.out.print("Enter an action [H]elp: ");
             String action = scanner.next();
             if(action.equalsIgnoreCase("h")){
                 //Show help page
                 System.out.println(
                         "Please enter a number to select that card [1-5], or run a command\n" +
                         "Commands: \n" +
-                        "[S]umbit Cards\n" +
-                        "[C]hange Cards\n" +
-                        "[H]elp");
+                        "  [S]wap card\n" +
+                        "  [P]ut Down Cards\n" +
+                        "  [H]elp");
                 continue;
             }
             try{

@@ -18,7 +18,6 @@ public class Poker {
                 "     ███████╗██║ ╚═╝ ██║███████╗██║  ██║ ╚═██╔═╝ ███████╗██████╔╝  ╚█████╔╝██║  ██║██████╔╝██║██║ ╚███║╚█████╔╝\n" +
                 "     ╚══════╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═════╝    ╚════╝ ╚═╝  ╚═╝╚═════╝ ╚═╝╚═╝  ╚══╝ ╚════╝ \n" +
                 "=========================================================================================================================");
-        System.out.println("Its ");
         runGame();
     }
     public static void runGame(){
@@ -47,7 +46,7 @@ public class Poker {
                 //callback for when a value is selected
                 (cardSelector, selectedValue, action) -> {
                     //Action 'q' = Submit
-                    if (action == 's') {
+                    if (action == 'p') {
                         //remove any mystery cards
                         for (int i = 0; i < 5; i++) {
                             if (player1.getCards()[i].getFaceValue() == -1) player1.getCards()[i] = deck.dealCard();
@@ -82,7 +81,7 @@ public class Poker {
                         cardSelector.pause();
                         return false;
                     }
-                    if (action == 'c' && changed[0] < 3) {
+                    if (action == 's' && changed[0] < 3) {
                         if (player1.getCards()[cardSelector.getSelected()].getFaceValue() == -1) return false;
                         player1.getCards()[cardSelector.getSelected()] = new Card("?", "?");
                         changed[0]++;
